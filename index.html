@@ -30,12 +30,13 @@
 
     textarea {
       width: 100%;
-      height: 180px;
+      height: 220px;
       padding: 12px;
       box-sizing: border-box;
       font-family: monospace;
       font-size: 18px;
       line-height: 1.5;
+      resize: vertical;
     }
 
     button {
@@ -44,13 +45,13 @@
       padding: 10px 25px;
       font-size: 17px;
       cursor: pointer;
+      border-radius: 5px;
     }
 
     #runButton {
-      background-color: #1677ff;
       color: white;
+      background-color: #1677ff;
       border: none;
-      border-radius: 5px;
     }
 
     #runButton:disabled {
@@ -59,35 +60,20 @@
     }
 
     #resetButton {
-      border: 1px solid #777;
-      border-radius: 5px;
       background-color: white;
+      border: 1px solid #777;
     }
 
     pre {
-      min-height: 100px;
+      min-height: 120px;
       padding: 15px;
-      overflow-wrap: break-word;
       white-space: pre-wrap;
+      overflow-wrap: break-word;
       font-family: monospace;
       font-size: 18px;
       color: white;
       background-color: #222;
       border-radius: 5px;
-    }
-
-    #judgment {
-      min-height: 30px;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .correct {
-      color: green;
-    }
-
-    .incorrect {
-      color: red;
     }
   </style>
 </head>
@@ -100,8 +86,7 @@
     <h2>問題</h2>
 
     <p>
-      繰り返し命令を使って、0から4までの数字を
-      1行ずつ表示するプログラムを書きなさい。
+      繰り返し命令を使って、数字や文字を表示するプログラムを書いてみましょう。
     </p>
   </div>
 
@@ -126,8 +111,6 @@
     <h2>実行結果</h2>
 
     <pre id="output">Pythonを読み込んでいます。</pre>
-
-    <div id="judgment"></div>
   </div>
 
   <script>
@@ -156,17 +139,18 @@
     async function runPython() {
       const code = document.getElementById("code").value;
       const output = document.getElementById("output");
-      const judgment = document.getElementById("judgment");
       const runButton = document.getElementById("runButton");
+
+      if (code.trim() === "") {
+        output.textContent = "コードを入力してください。";
+        return;
+      }
 
       let resultText = "";
 
-      output.textContent = "実行中です。";
-      judgment.textContent = "";
-      judgment.className = "";
-
       runButton.disabled = true;
       runButton.textContent = "実行中";
+      output.textContent = "実行中です。";
 
       pyodide.setStdout({
         batched: function(text) {
@@ -187,18 +171,14 @@
 
         if (resultText === "") {
           output.textContent =
-            "プログラムは実行されましたが、表示結果がありません。";
+            "プログラムは実行されましたが、表示結果はありません。";
         } else {
           output.textContent = resultText;
         }
 
-        checkAnswer(resultText);
-
       } catch (error) {
-        output.textContent = "エラーが発生しました。\n\n" + error;
-
-        judgment.textContent = "プログラムを確認しましょう。";
-        judgment.className = "incorrect";
+        output.textContent =
+          "エラーが発生しました。\n\n" + formatError(error);
 
       } finally {
         runButton.disabled = false;
@@ -206,33 +186,28 @@
       }
     }
 
-    function checkAnswer(resultText) {
-      const judgment = document.getElementById("judgment");
+    function formatError(error) {
+      const text = String(error);
 
-      const expected =
-`0
-1
-2
-3
-4`;
-
-      if (resultText.trim() === expected) {
-        judgment.textContent = "〇 正解です！";
-        judgment.className = "correct";
-      } else {
-        judgment.textContent = "× 出力結果を確認しましょう。";
-        judgment.className = "incorrect";
+      if (text.includes("IndentationError")) {
+        return "字下げに誤りがあります。\nprintの前の空白を確認してください。";
       }
+
+      if (text.includes("SyntaxError")) {
+        return "文法に誤りがあります。\nコロン「:」や括弧を確認してください。";
+      }
+
+      if (text.includes("NameError")) {
+        return "変数名や命令の名前を確認してください。";
+      }
+
+      return text;
     }
 
     function resetCode() {
       document.getElementById("code").value = initialCode;
       document.getElementById("output").textContent =
         "コードを初期状態に戻しました。";
-
-      const judgment = document.getElementById("judgment");
-      judgment.textContent = "";
-      judgment.className = "";
     }
 
     preparePython();

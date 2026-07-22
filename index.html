@@ -350,45 +350,23 @@
         <div class="panel">
           <h2>Pythonコード</h2>
 
-          <div class="editor">
-            <pre id="lineNumbers">1</pre>
+<div class="buttons">
+    <button id="runButton" class="action" onclick="runPython()" disabled>
+        実行
+    </button>
 
-            <textarea
-              id="code"
-              spellcheck="false"
-              autocomplete="off"
-              autocapitalize="off"
-              aria-label="Pythonコード入力欄"
-            ></textarea>
-          </div>
+    <button id="resetButton" class="action" onclick="resetCode()">
+        例に戻す
+    </button>
 
-          <div class="buttons">
-            <button
-              id="runButton"
-              class="action"
-              onclick="runPython()"
-              disabled
-            >
-              Pythonを準備中
-            </button>
+    <button id="clearButton" class="action" onclick="clearCode()">
+        全消去
+    </button>
+</div>
 
-            <button
-              id="resetButton"
-              class="action"
-              onclick="resetCode()"
-            >
-              例に戻す
-            </button>
-
-            <button
-              id="clearButton"
-              class="action"
-              onclick="clearCode()"
-            >
-              全消去
-            </button>
-          </div>
-        </div>
+<div class="editor">
+    …
+</div>
 
         <div class="panel">
           <h2>実行結果</h2>

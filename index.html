@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>Pythonテスト</title>
+<meta charset="UTF-8">
+<title>Python実行テスト</title>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+
+<style>
+body{
+    font-family:sans-serif;
+    margin:40px;
+}
+
+button{
+    font-size:18px;
+    padding:10px 20px;
+}
+
+pre{
+    background:#eee;
+    padding:15px;
+    min-height:100px;
+}
+</style>
+
 </head>
 <body>
 
 <h1>Python実行テスト</h1>
 
-<p>ここからPythonを実行できるページを作ります。</p>
+<button onclick="runPython()">実行</button>
+
+<pre id="result">準備中...</pre>
+
+<script>
+
+let pyodide;
+
+async function loadPython(){
+
+    document.getElementById("result").textContent="Pythonを読み込み中...";
+
+    pyodide=await loadPyodide();
+
+    document.getElementById("result").textContent="準備完了";
+}
+
+loadPython();
+
+async function runPython(){
+
+    let result=pyodide.runPython(`
+for i in range(5):
+    print(i)
+`);
+
+    document.getElementById("result").textContent=result;
+
+}
+
+</script>
 
 </body>
 </html>

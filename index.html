@@ -1,65 +1,242 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>Python実行テスト</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+  <title>Python 繰り返し命令</title>
 
-<style>
-body{
-    font-family:sans-serif;
-    margin:40px;
-}
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.29.3/full/pyodide.js"></script>
 
-button{
-    font-size:18px;
-    padding:10px 20px;
-}
+  <style>
+    body {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+      font-family: sans-serif;
+      background-color: #f3f5f7;
+    }
 
-pre{
-    background:#eee;
-    padding:15px;
-    min-height:100px;
-}
-</style>
+    h1 {
+      text-align: center;
+    }
 
+    .box {
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 12px;
+      box-sizing: border-box;
+      font-family: monospace;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    button {
+      margin-top: 12px;
+      margin-right: 8px;
+      padding: 10px 25px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    #runButton {
+      background-color: #1677ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #runButton:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+
+    #resetButton {
+      border: 1px solid #777;
+      border-radius: 5px;
+      background-color: white;
+    }
+
+    pre {
+      min-height: 100px;
+      padding: 15px;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 18px;
+      color: white;
+      background-color: #222;
+      border-radius: 5px;
+    }
+
+    #judgment {
+      min-height: 30px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Python実行テスト</h1>
+  <h1>Python 繰り返し命令</h1>
 
-<button onclick="runPython()">実行</button>
+  <div class="box">
+    <h2>問題</h2>
 
-<pre id="result">準備中...</pre>
+    <p>
+      繰り返し命令を使って、0から4までの数字を
+      1行ずつ表示するプログラムを書きなさい。
+    </p>
+  </div>
 
-<script>
+  <div class="box">
+    <h2>Pythonコード</h2>
 
-let pyodide;
+    <textarea id="code" spellcheck="false">for i in range(5):
+    print(i)</textarea>
 
-async function loadPython(){
+    <br>
 
-    document.getElementById("result").textContent="Pythonを読み込み中...";
+    <button id="runButton" onclick="runPython()" disabled>
+      Pythonを準備中
+    </button>
 
-    pyodide=await loadPyodide();
+    <button id="resetButton" onclick="resetCode()">
+      リセット
+    </button>
+  </div>
 
-    document.getElementById("result").textContent="準備完了";
-}
+  <div class="box">
+    <h2>実行結果</h2>
 
-loadPython();
+    <pre id="output">Pythonを読み込んでいます。</pre>
 
-async function runPython(){
+    <div id="judgment"></div>
+  </div>
 
-    let result=pyodide.runPython(`
-for i in range(5):
-    print(i)
-`);
+  <script>
+    let pyodide;
 
-    document.getElementById("result").textContent=result;
+    const initialCode =
+`for i in range(5):
+    print(i)`;
 
-}
+    async function preparePython() {
+      const output = document.getElementById("output");
+      const runButton = document.getElementById("runButton");
 
-</script>
+      try {
+        pyodide = await loadPyodide();
+
+        runButton.disabled = false;
+        runButton.textContent = "実行";
+        output.textContent = "準備ができました。";
+      } catch (error) {
+        output.textContent =
+          "Pythonの読み込みに失敗しました。\n" + error;
+      }
+    }
+
+    async function runPython() {
+      const code = document.getElementById("code").value;
+      const output = document.getElementById("output");
+      const judgment = document.getElementById("judgment");
+      const runButton = document.getElementById("runButton");
+
+      let resultText = "";
+
+      output.textContent = "実行中です。";
+      judgment.textContent = "";
+      judgment.className = "";
+
+      runButton.disabled = true;
+      runButton.textContent = "実行中";
+
+      pyodide.setStdout({
+        batched: function(text) {
+          resultText += text + "\n";
+        }
+      });
+
+      pyodide.setStderr({
+        batched: function(text) {
+          resultText += text + "\n";
+        }
+      });
+
+      try {
+        await pyodide.runPythonAsync(code);
+
+        resultText = resultText.trimEnd();
+
+        if (resultText === "") {
+          output.textContent =
+            "プログラムは実行されましたが、表示結果がありません。";
+        } else {
+          output.textContent = resultText;
+        }
+
+        checkAnswer(resultText);
+
+      } catch (error) {
+        output.textContent = "エラーが発生しました。\n\n" + error;
+
+        judgment.textContent = "プログラムを確認しましょう。";
+        judgment.className = "incorrect";
+
+      } finally {
+        runButton.disabled = false;
+        runButton.textContent = "実行";
+      }
+    }
+
+    function checkAnswer(resultText) {
+      const judgment = document.getElementById("judgment");
+
+      const expected =
+`0
+1
+2
+3
+4`;
+
+      if (resultText.trim() === expected) {
+        judgment.textContent = "〇 正解です！";
+        judgment.className = "correct";
+      } else {
+        judgment.textContent = "× 出力結果を確認しましょう。";
+        judgment.className = "incorrect";
+      }
+    }
+
+    function resetCode() {
+      document.getElementById("code").value = initialCode;
+      document.getElementById("output").textContent =
+        "コードを初期状態に戻しました。";
+
+      const judgment = document.getElementById("judgment");
+      judgment.textContent = "";
+      judgment.className = "";
+    }
+
+    preparePython();
+  </script>
 
 </body>
 </html>

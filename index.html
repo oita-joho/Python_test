@@ -6,7 +6,7 @@
 
   <title>情報Ⅰ Python教材</title>
 
-  <script src="https://cdn.jsdelivr.net/pyodide/v314.0.2/full/pyodide.js"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js"></script>
 
   <style>
     * {
@@ -42,8 +42,8 @@
 
     .container {
       display: grid;
-      grid-template-columns: 250px 1fr;
-      min-height: calc(100vh - 92px);
+      grid-template-columns: 240px 1fr;
+      min-height: calc(100vh - 90px);
     }
 
     nav {
@@ -84,7 +84,7 @@
     }
 
     .card {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto 20px;
       padding: 22px;
       background: white;
@@ -115,11 +115,25 @@
       border-left: 5px solid #174ea6;
     }
 
-    /* 行番号付きエディタ */
+    .work-area {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(300px, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      min-width: 0;
+    }
+
+    .panel h2 {
+      margin-bottom: 10px;
+    }
+
     .editor {
       display: flex;
       width: 100%;
-      height: 300px;
+      height: 360px;
       overflow: hidden;
       background: white;
       border: 1px solid #888;
@@ -163,6 +177,38 @@
       line-height: 1.6;
     }
 
+    .output-box {
+      height: 360px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #222;
+      border-radius: 6px;
+    }
+
+    #status {
+      padding: 12px 16px;
+      font-weight: bold;
+      color: #222;
+      background: #eeeeee;
+      border-bottom: 1px solid #bbb;
+    }
+
+    #output {
+      flex: 1;
+      min-height: 0;
+      margin: 0;
+      padding: 18px;
+      overflow: auto;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      color: white;
+      background: #222;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
     .buttons {
       display: flex;
       flex-wrap: wrap;
@@ -194,27 +240,7 @@
       border: 1px solid #777;
     }
 
-    #status {
-      margin-bottom: 10px;
-      font-weight: bold;
-      color: #555;
-    }
-
-    #output {
-      min-height: 150px;
-      margin: 0;
-      padding: 18px;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
-      color: white;
-      background: #222;
-      border-radius: 6px;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 750px) {
+    @media (max-width: 900px) {
       .container {
         display: block;
       }
@@ -226,7 +252,7 @@
 
       .lesson-list {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
       }
 
@@ -238,8 +264,19 @@
         padding: 12px;
       }
 
-      .editor {
-        height: 260px;
+      .work-area {
+        grid-template-columns: 1fr;
+      }
+
+      .editor,
+      .output-box {
+        height: 300px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .lesson-list {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -300,65 +337,73 @@
 
     <section class="card">
       <h2 id="lessonTitle"></h2>
-
       <div id="lessonDescription"></div>
 
       <h3>コード例</h3>
-
       <div id="lessonExample" class="example"></div>
     </section>
 
     <section class="card">
-      <h2>Pythonコード</h2>
 
-      <div class="editor">
-        <pre id="lineNumbers">1</pre>
+      <div class="work-area">
 
-        <textarea
-          id="code"
-          spellcheck="false"
-          autocomplete="off"
-          autocapitalize="off"
-          aria-label="Pythonコード入力欄"
-        ></textarea>
+        <div class="panel">
+          <h2>Pythonコード</h2>
+
+          <div class="editor">
+            <pre id="lineNumbers">1</pre>
+
+            <textarea
+              id="code"
+              spellcheck="false"
+              autocomplete="off"
+              autocapitalize="off"
+              aria-label="Pythonコード入力欄"
+            ></textarea>
+          </div>
+
+          <div class="buttons">
+            <button
+              id="runButton"
+              class="action"
+              onclick="runPython()"
+              disabled
+            >
+              Pythonを準備中
+            </button>
+
+            <button
+              id="resetButton"
+              class="action"
+              onclick="resetCode()"
+            >
+              例に戻す
+            </button>
+
+            <button
+              id="clearButton"
+              class="action"
+              onclick="clearCode()"
+            >
+              全消去
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>実行結果</h2>
+
+          <div class="output-box">
+            <div id="status">
+              Pythonを読み込んでいます。
+            </div>
+
+            <pre id="output">しばらくお待ちください。</pre>
+          </div>
+        </div>
+
       </div>
 
-      <div class="buttons">
-        <button
-          id="runButton"
-          class="action"
-          onclick="runPython()"
-          disabled
-        >
-          Pythonを準備中
-        </button>
-
-        <button
-          id="resetButton"
-          class="action"
-          onclick="resetCode()"
-        >
-          例に戻す
-        </button>
-
-        <button
-          id="clearButton"
-          class="action"
-          onclick="clearCode()"
-        >
-          全消去
-        </button>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>実行結果</h2>
-
-      <div id="status">
-        Pythonを読み込んでいます。
-      </div>
-
-      <pre id="output">しばらくお待ちください。</pre>
     </section>
 
   </main>
@@ -371,10 +416,8 @@
   const lessons = [
     {
       title: "1　順次処理",
-
       description:
         "命令は、上から順番に実行されます。print関数を使って、文字を表示してみましょう。",
-
       example:
 `print("おはよう")
 print("こんにちは")
@@ -383,10 +426,8 @@ print("こんばんは")`
 
     {
       title: "2　変数",
-
       description:
         "変数に値を代入し、その値を計算したり表示したりします。",
-
       example:
 `price = 120
 count = 3
@@ -397,10 +438,8 @@ print(total)`
 
     {
       title: "3　入力",
-
       description:
-        "input関数を使うと、実行中に値を入力できます。入力された値は、文字列として扱われます。",
-
+        "input関数を使うと、実行中に値を入力できます。入力された値は文字列として扱われます。",
       example:
 `name = input("名前を入力してください：")
 print("こんにちは、" + name + "さん")`
@@ -408,10 +447,8 @@ print("こんにちは、" + name + "さん")`
 
     {
       title: "4　条件分岐",
-
       description:
-        "条件によって実行する命令を変えます。ifやelseの行の最後には、コロンが必要です。",
-
+        "条件によって実行する命令を変えます。ifやelseの行の最後にはコロンが必要です。",
       example:
 `score = 75
 
@@ -423,10 +460,8 @@ else:
 
     {
       title: "5　for文",
-
       description:
         "同じ処理を決められた回数だけ繰り返します。endを指定すると、printの最後に付ける文字を変更できます。",
-
       example:
 `for i in range(5):
     print(i, end=",")`
@@ -434,10 +469,8 @@ else:
 
     {
       title: "6　while文",
-
       description:
         "条件が成り立っている間、処理を繰り返します。変数の値を変化させる命令を忘れないようにします。",
-
       example:
 `i = 0
 
@@ -448,10 +481,8 @@ while i < 5:
 
     {
       title: "7　リスト",
-
       description:
-        "複数の値を、1つの変数にまとめて保存できます。for文を使うと、値を順番に取り出せます。",
-
+        "複数の値を1つの変数にまとめて保存できます。for文を使うと、値を順番に取り出せます。",
       example:
 `fruits = ["りんご", "みかん", "ぶどう"]
 
@@ -461,10 +492,8 @@ for fruit in fruits:
 
     {
       title: "8　関数",
-
       description:
-        "複数の命令をひとまとまりにして、名前を付けます。作成した関数は、呼び出すことで実行されます。",
-
+        "複数の命令をひとまとまりにして名前を付けます。作成した関数は、呼び出すことで実行されます。",
       example:
 `def greet(name):
     print("こんにちは、" + name + "さん")
@@ -474,10 +503,8 @@ greet("大分")`
 
     {
       title: "9　自由入力",
-
       description:
         "自由にPythonコードを入力して、動作を確認できます。",
-
       example:
 `# ここにPythonコードを書いてください
 `
@@ -487,15 +514,14 @@ greet("大分")`
   function selectLesson(index) {
     currentLesson = index;
 
-    const buttons =
-      document.querySelectorAll(".lesson-button");
-
-    buttons.forEach((button, buttonIndex) => {
-      button.classList.toggle(
-        "active",
-        buttonIndex === index
-      );
-    });
+    document.querySelectorAll(".lesson-button").forEach(
+      (button, buttonIndex) => {
+        button.classList.toggle(
+          "active",
+          buttonIndex === index
+        );
+      }
+    );
 
     const lesson = lessons[index];
 
@@ -523,14 +549,9 @@ greet("大分")`
   }
 
   function updateLineNumbers() {
-    const code =
-      document.getElementById("code");
-
-    const lineNumbers =
-      document.getElementById("lineNumbers");
-
-    const lineCount =
-      code.value.split("\n").length;
+    const code = document.getElementById("code");
+    const lineNumbers = document.getElementById("lineNumbers");
+    const lineCount = code.value.split("\n").length;
 
     let numbers = "";
 
@@ -546,115 +567,69 @@ greet("大分")`
   }
 
   function syncScroll() {
-    const code =
-      document.getElementById("code");
+    const code = document.getElementById("code");
+    const lineNumbers = document.getElementById("lineNumbers");
 
-    const lineNumbers =
-      document.getElementById("lineNumbers");
-
-    lineNumbers.scrollTop =
-      code.scrollTop;
+    lineNumbers.scrollTop = code.scrollTop;
   }
 
   async function preparePython() {
-    const runButton =
-      document.getElementById("runButton");
-
-    const status =
-      document.getElementById("status");
-
-    const output =
-      document.getElementById("output");
+    const runButton = document.getElementById("runButton");
+    const status = document.getElementById("status");
+    const output = document.getElementById("output");
 
     try {
       pyodide = await loadPyodide();
 
-      /*
-        Pythonのinput()が実行されたとき、
-        ブラウザの入力画面を表示します。
-      */
       pyodide.setStdin({
         stdin: () => {
-          const value =
-            window.prompt("Pythonへの入力");
-
-          if (value === null) {
-            return "";
-          }
-
-          return value;
+          const value = window.prompt("Pythonへの入力");
+          return value === null ? "" : value;
         }
       });
 
       runButton.disabled = false;
       runButton.textContent = "実行";
 
-      status.textContent =
-        "Pythonの準備ができました。";
-
+      status.textContent = "Pythonの準備ができました。";
       output.textContent =
         "「実行」を押すと、ここに結果が表示されます。";
 
     } catch (error) {
-      status.textContent =
-        "Pythonの読み込みに失敗しました。";
-
-      output.textContent =
-        String(error);
+      status.textContent = "Pythonの読み込みに失敗しました。";
+      output.textContent = String(error);
     }
   }
 
   async function runPython() {
-    const code =
-      document.getElementById("code").value;
-
-    const output =
-      document.getElementById("output");
-
-    const status =
-      document.getElementById("status");
-
-    const runButton =
-      document.getElementById("runButton");
+    const code = document.getElementById("code").value;
+    const output = document.getElementById("output");
+    const status = document.getElementById("status");
+    const runButton = document.getElementById("runButton");
 
     if (!pyodide) {
-      status.textContent =
-        "Pythonを読み込んでいます。";
-
+      status.textContent = "Pythonを読み込んでいます。";
       return;
     }
 
     if (code.trim() === "") {
-      status.textContent =
-        "コードが入力されていません。";
-
+      status.textContent = "コードが入力されていません。";
       output.textContent = "";
-
       return;
     }
 
     runButton.disabled = true;
     runButton.textContent = "実行中";
 
-    status.textContent =
-      "プログラムを実行しています。";
-
+    status.textContent = "プログラムを実行しています。";
     output.textContent = "";
 
     try {
-      /*
-        コード内でimportされたPyodide対応パッケージを
-        必要に応じて読み込みます。
-      */
       await pyodide.loadPackagesFromImports(code);
 
-      pyodide.globals.set(
-        "student_code",
-        code
-      );
+      pyodide.globals.set("student_code", code);
 
-      const result =
-        await pyodide.runPythonAsync(`
+      const result = await pyodide.runPythonAsync(`
 import io
 import contextlib
 import traceback
@@ -674,21 +649,16 @@ except Exception:
     traceback.print_exc(file=_output_buffer)
 
 _output_buffer.getvalue()
-        `);
+      `);
 
-      const resultText =
-        String(result);
+      const resultText = String(result);
 
-      if (resultText === "") {
-        output.textContent =
-          "プログラムは実行されましたが、表示結果はありません。";
-      } else {
-        output.textContent =
-          resultText;
-      }
+      output.textContent =
+        resultText === ""
+          ? "プログラムは実行されましたが、表示結果はありません。"
+          : resultText;
 
-      status.textContent =
-        "実行が完了しました。";
+      status.textContent = "実行が完了しました。";
 
       if (
         result &&
@@ -698,11 +668,8 @@ _output_buffer.getvalue()
       }
 
     } catch (error) {
-      status.textContent =
-        "エラーが発生しました。";
-
-      output.textContent =
-        String(error);
+      status.textContent = "エラーが発生しました。";
+      output.textContent = String(error);
 
     } finally {
       runButton.disabled = false;
@@ -724,76 +691,48 @@ _output_buffer.getvalue()
   }
 
   function clearCode() {
-    const code =
-      document.getElementById("code");
+    const code = document.getElementById("code");
 
     code.value = "";
 
     document.getElementById("status").textContent =
       "入力欄を空にしました。";
 
-    document.getElementById("output").textContent =
-      "";
+    document.getElementById("output").textContent = "";
 
     updateLineNumbers();
-
     code.focus();
   }
 
-  const codeEditor =
-    document.getElementById("code");
+  const codeEditor = document.getElementById("code");
 
-  codeEditor.addEventListener(
-    "input",
-    updateLineNumbers
-  );
+  codeEditor.addEventListener("input", updateLineNumbers);
+  codeEditor.addEventListener("scroll", syncScroll);
 
-  codeEditor.addEventListener(
-    "scroll",
-    syncScroll
-  );
+  codeEditor.addEventListener("keydown", function(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
 
-  codeEditor.addEventListener(
-    "keydown",
-    function(event) {
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
 
-      /*
-        Tabキーで半角スペース4個を入力します。
-      */
-      if (event.key === "Tab") {
-        event.preventDefault();
+      this.value =
+        this.value.substring(0, start) +
+        "    " +
+        this.value.substring(end);
 
-        const start =
-          this.selectionStart;
+      this.selectionStart =
+        this.selectionEnd =
+        start + 4;
 
-        const end =
-          this.selectionEnd;
-
-        this.value =
-          this.value.substring(0, start) +
-          "    " +
-          this.value.substring(end);
-
-        this.selectionStart =
-          this.selectionEnd =
-          start + 4;
-
-        updateLineNumbers();
-      }
-
-      /*
-        Ctrl＋Enterでも実行できます。
-      */
-      if (
-        event.ctrlKey &&
-        event.key === "Enter"
-      ) {
-        event.preventDefault();
-
-        runPython();
-      }
+      updateLineNumbers();
     }
-  );
+
+    if (event.ctrlKey && event.key === "Enter") {
+      event.preventDefault();
+      runPython();
+    }
+  });
 
   selectLesson(0);
   preparePython();

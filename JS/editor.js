@@ -1,5 +1,5 @@
 const SPACE_MARK = "□";
-
+ 
 function toDisplayCode(text) {
   return text.replaceAll(" ", SPACE_MARK);
 }

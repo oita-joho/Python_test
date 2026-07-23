@@ -112,7 +112,79 @@ greet("大分")`,
     ]
   },
   {
-    title: "9　自由入力",
+    title: "9　探索",
+    description: "リストの中から目的の値を順番に探します。見つかった位置を変数に保存します。",
+    example: `numbers=[12,25,38,41,56]
+target=38
+position=-1
+
+for i in range(len(numbers)):
+    if numbers[i]==target:
+        position=i
+        break
+
+if position==-1:
+    print("見つかりませんでした")
+else:
+    print(position,"番目に見つかりました")`,
+    rows: [
+      ['numbers=[12,25,38,41,56]', '探索する数値のリストを作る'],
+      ['target=38', '探す値を38にする'],
+      ['position=-1', '見つかった位置を保存する変数を用意する。-1はまだ見つかっていないことを表す'],
+      ['', ''],
+      ['for i in range(len(numbers)):', 'リストの番号を0から順番に変えながら繰り返す'],
+      ['    if numbers[i]==target:', 'i番目の値が探す値と同じか調べる'],
+      ['        position=i', '同じなら、その位置をpositionに代入する'],
+      ['        break', '値が見つかったので繰り返しを終了する'],
+      ['', ''],
+      ['if position==-1:', '最後まで見つからなかったか調べる'],
+      ['    print("見つかりませんでした")', '見つからなかったことを表示する'],
+      ['else:', '見つかった場合の処理を示す'],
+      ['    print(position,"番目に見つかりました")', '見つかった位置を表示する']
+    ]
+  },
+  {
+    title: "10　交換",
+    description: "2つの変数の値を交換します。一方の値が消えないように、一時的に別の変数へ保存します。",
+    example: `a=10
+b=20
+
+temp=a
+a=b
+b=temp
+
+print(a)
+print(b)`,
+    rows: [
+      ['a=10', '変数aに10を代入する'],
+      ['b=20', '変数bに20を代入する'],
+      ['', ''],
+      ['temp=a', 'aの値を一時的に変数tempへ保存する'],
+      ['a=b', 'bの値をaに代入する'],
+      ['b=temp', '保存しておいた元のaの値をbに代入する'],
+      ['', ''],
+      ['print(a)', '交換後のaの値を表示する'],
+      ['print(b)', '交換後のbの値を表示する']
+    ]
+  },
+  {
+    title: "11　乱数",
+    description: "randomモジュールを使うと、実行するたびに異なる数を選べます。randint(a,b)はa以上b以下の整数を1つ返します。",
+    example: `import random
+
+number=random.randint(1,6)
+
+print(number)`,
+    rows: [
+      ['import random', '乱数を扱うためのrandomモジュールを読み込む'],
+      ['', ''],
+      ['number=random.randint(1,6)', '1以上6以下の整数をランダムに1つ選び、numberに代入する'],
+      ['', ''],
+      ['print(number)', '選ばれた数を表示する']
+    ]
+  },
+  {
+    title: "12　自由記述",
     description: "自由にPythonコードを入力して、動作を確認できます。",
     example: `# ここにPythonコードを書いてください
 `,

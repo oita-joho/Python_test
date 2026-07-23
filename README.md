@@ -1,27 +1,20 @@
 # 情報Ⅰ Python教材
 
-GitHub Pages上で動作する、Pyodideを利用したブラウザ版Python教材です。
+GitHub Pagesで動作する、Pyodideを使ったブラウザ版Python教材です。
 
 ## ファイル構成
 
-- `index.html`：画面の構造
-- `css/style.css`：見た目
-- `js/lessons.js`：教材データ
-- `js/editor.js`：行番号、Tab、スペース表示
-- `js/python.js`：Python実行処理
-- `js/app.js`：画面切替とボタン処理
+- `index.html`
+- `css/style.css`
+- `js/lessons.js`
+- `js/editor.js`
+- `js/python.js`
+- `js/app.js`
 
-## GitHub Pagesでの公開
+## 更新内容
 
-1. このフォルダの中身をGitHubリポジトリへアップロードします。
-2. GitHubの `Settings` → `Pages` を開きます。
-3. `Deploy from a branch` を選びます。
-4. `main` ブランチと `/root` を選び、保存します。
-
-## スペース表示
-
-画面上では半角スペースを `□` と表示します。実行時には自動的に通常の半角スペースへ戻します。
-
-
-## コードの意味
-各単元のコード例の下に、1行ずつ日本語で意味を表示します。問題を追加するときは `js/lessons.js` の `meaning` を編集してください。
+- コード例から、演算子（`=`、`+`、`*`、`>=` など）の前後の不要な空白を削除
+- `if score`、`for i in`、`while i`、`def greet` など、必要な半角スペースは画面上で `□` と表示
+- インデント4文字分を `□□□□` と表示
+- 9単元すべてに「コードの意味」を追加
+- ブラウザの古いキャッシュを避けるため、CSS・JavaScriptの読み込みに版番号を追加

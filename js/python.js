@@ -1,6 +1,5 @@
 let pyodide;
 
-
 async function preparePython() {
   const runButton = document.getElementById("runButton");
   const status = document.getElementById("status");

@@ -1,5 +1,30 @@
 let currentLesson = 0;
 
+function renderCodeMeaningTable(rows) {
+  const body = document.getElementById("codeMeaningBody");
+  body.innerHTML = "";
+
+  rows.forEach(([code, meaning]) => {
+    const row = document.createElement("tr");
+
+    if (code === "" && meaning === "") {
+      row.className = "blank-row";
+    }
+
+    const codeCell = document.createElement("td");
+    const codeText = document.createElement("code");
+    codeText.textContent = toDisplayCode(code);
+    codeCell.appendChild(codeText);
+
+    const meaningCell = document.createElement("td");
+    meaningCell.textContent = meaning;
+
+    row.appendChild(codeCell);
+    row.appendChild(meaningCell);
+    body.appendChild(row);
+  });
+}
+
 function createLessonButtons() {
   const lessonList = document.getElementById("lessonList");
   lessonList.innerHTML = "";
@@ -23,8 +48,7 @@ function selectLesson(index) {
 
   document.getElementById("lessonTitle").textContent = lesson.title;
   document.getElementById("lessonDescription").textContent = lesson.description;
-  document.getElementById("lessonExample").textContent = toDisplayCode(lesson.example);
-  document.getElementById("lessonMeaning").textContent = lesson.meaning;
+  renderCodeMeaningTable(lesson.rows);
   document.getElementById("code").value = toDisplayCode(lesson.example);
   document.getElementById("output").textContent =
     "「実行」を押すと、ここに結果が表示されます。";

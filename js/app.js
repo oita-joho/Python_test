@@ -24,6 +24,7 @@ function selectLesson(index) {
   document.getElementById("lessonTitle").textContent = lesson.title;
   document.getElementById("lessonDescription").textContent = lesson.description;
   document.getElementById("lessonExample").textContent = toDisplayCode(lesson.example);
+  document.getElementById("lessonMeaning").textContent = lesson.meaning;
   document.getElementById("code").value = toDisplayCode(lesson.example);
   document.getElementById("output").textContent =
     "「実行」を押すと、ここに結果が表示されます。";

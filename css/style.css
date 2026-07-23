@@ -95,6 +95,16 @@ main {
   border-left: 5px solid #174ea6;
 }
 
+.meaning {
+  padding: 14px 18px;
+  white-space: pre-wrap;
+  font-size: 17px;
+  line-height: 1.9;
+  background: #fff8e1;
+  border-left: 5px solid #f4b400;
+  border-radius: 4px;
+}
+
 .work-area {
   display: grid;
   grid-template-columns: minmax(500px, 1.5fr) minmax(280px, 1fr);

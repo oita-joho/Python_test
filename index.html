@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>情報Ⅰ Python教材</title>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=4">
   <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js"></script>
 </head>
 <body>
@@ -25,11 +25,18 @@
         <h2 id="lessonTitle"></h2>
         <div id="lessonDescription"></div>
 
-        <h3>コード例</h3>
-        <div id="lessonExample" class="example"></div>
-
-        <h3>コードの意味</h3>
-        <div id="lessonMeaning" class="meaning"></div>
+        <h3>コード例とコードの意味</h3>
+        <div class="code-meaning-table-wrap">
+          <table class="code-meaning-table">
+            <thead>
+              <tr>
+                <th>コード</th>
+                <th>コードの意味</th>
+              </tr>
+            </thead>
+            <tbody id="codeMeaningBody"></tbody>
+          </table>
+        </div>
       </section>
 
       <section class="card">
@@ -67,9 +74,9 @@
     </main>
   </div>
 
-  <script src="js/lessons.js"></script>
-  <script src="js/editor.js"></script>
-  <script src="js/python.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/lessons.js?v=4"></script>
+  <script src="js/editor.js?v=4"></script>
+  <script src="js/python.js?v=4"></script>
+  <script src="js/app.js?v=4"></script>
 </body>
 </html>

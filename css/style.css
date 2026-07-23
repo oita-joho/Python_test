@@ -263,3 +263,97 @@ main {
     height: 300px;
   }
 }
+
+.code-meaning-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #d8dee8;
+  border-radius: 8px;
+}
+
+.code-meaning-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: white;
+}
+
+.code-meaning-table th,
+.code-meaning-table td {
+  padding: 13px 16px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #e3e7ed;
+}
+
+.code-meaning-table th:first-child,
+.code-meaning-table td:first-child {
+  width: 46%;
+}
+
+.code-meaning-table th {
+  color: white;
+  background: #174ea6;
+  font-size: 17px;
+}
+
+.code-meaning-table td:first-child {
+  background: #f5f7fa;
+  border-right: 1px solid #d8dee8;
+}
+
+.code-meaning-table td:last-child {
+  background: #fff8e1;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.code-meaning-table code {
+  white-space: pre-wrap;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.code-meaning-table tr:last-child td {
+  border-bottom: none;
+}
+
+.code-meaning-table .blank-row td {
+  height: 18px;
+  padding: 0;
+  background: white;
+}
+
+@media (max-width: 700px) {
+  .code-meaning-table,
+  .code-meaning-table tbody,
+  .code-meaning-table tr,
+  .code-meaning-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .code-meaning-table thead {
+    display: none;
+  }
+
+  .code-meaning-table td:first-child {
+    width: 100%;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .code-meaning-table td:last-child {
+    padding-top: 10px;
+  }
+
+  .code-meaning-table td:last-child::before {
+    content: "意味：";
+    font-weight: bold;
+  }
+
+  .code-meaning-table .blank-row {
+    display: none;
+  }
+}

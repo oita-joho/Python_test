@@ -1,6 +1,6 @@
 const lessons = [
   {
-    title: "1　順次処理",
+    title: "1 順次処理",
     description: "命令は、上から順番に実行されます。print関数を使って、文字を表示してみましょう。",
     example: `print("おはよう")\nprint("こんにちは")\nprint("こんばんは")`
   },

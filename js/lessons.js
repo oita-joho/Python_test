@@ -24,9 +24,70 @@ print("こんばんは")`,
       ]
     ]
   },
-
   {
-    title: "2　変数",
+    title: "2　四則演算",
+    description: "Pythonでは、加算・減算・乗算・除算などの計算ができます。商、余り、累乗の演算子も確認しましょう。",
+    example: `a=12
+b=5
+
+print(a+b)
+print(a-b)
+print(a*b)
+print(a/b)
+print(a//b)
+print(a%b)
+print(a**b)`,
+    rows: [
+      [
+        "a=12",
+        "変数aに12を代入する",
+        "a←12"
+      ],
+      [
+        "b=5",
+        "変数bに5を代入する",
+        "b←5"
+      ],
+      ["", "", ""],
+      [
+        "print(a+b)",
+        "aとbを加算した結果を表示する",
+        "a＋bを表示する"
+      ],
+      [
+        "print(a-b)",
+        "aからbを減算した結果を表示する",
+        "a－bを表示する"
+      ],
+      [
+        "print(a*b)",
+        "aとbを乗算した結果を表示する",
+        "a×bを表示する"
+      ],
+      [
+        "print(a/b)",
+        "aをbで除算した結果を表示する",
+        "a÷bを表示する"
+      ],
+      [
+        "print(a//b)",
+        "aをbで割った商を表示する",
+        "a÷bの商を表示する"
+      ],
+      [
+        "print(a%b)",
+        "aをbで割った余りを表示する",
+        "a÷bの余りを表示する"
+      ],
+      [
+        "print(a**b)",
+        "aのb乗を表示する",
+        "aのb乗を表示する"
+      ]
+    ]
+  },
+  {
+    title: "3　変数",
     description:
       "変数に値を代入し、その値を計算したり表示したりします。",
     example: `price=120
@@ -60,7 +121,7 @@ print(total)`,
   },
 
   {
-    title: "3　入力",
+    title: "4　入力",
     description:
       "input関数を使うと、実行中に値を入力できます。入力された値は文字列として扱われます。",
     example: `name=input("名前を入力してください：")
@@ -82,7 +143,7 @@ print("こんにちは、"+name+"さん")`,
   },
 
   {
-    title: "4　条件分岐",
+    title: "5　条件分岐",
     description:
       "条件によって実行する命令を変えます。ifやelseの行の最後にはコロンが必要です。",
     example: `score=75
@@ -122,7 +183,7 @@ else:
   },
 
   {
-    title: "5　for文",
+    title: "6　for文",
     description:
       "同じ処理を決められた回数だけ繰り返します。endを指定すると、printの最後に付ける文字を変更できます。",
     example: `for i in range(5):
@@ -142,7 +203,7 @@ else:
   },
 
   {
-    title: "6　while文",
+    title: "7　while文",
     description:
       "条件が成り立っている間、処理を繰り返します。変数の値を変化させる命令を忘れないようにします。",
     example: `i=0
@@ -176,7 +237,7 @@ while i<5:
   },
 
   {
-    title: "7　リスト",
+    title: "8　リスト",
     description:
       "複数の値を1つの変数にまとめて保存できます。for文を使うと、値を順番に取り出せます。",
     example: `fruits=["りんご","みかん","ぶどう"]
@@ -204,7 +265,7 @@ for fruit in fruits:
   },
 
   {
-    title: "8　関数",
+    title: "9　関数",
     description:
       "複数の命令をひとまとまりにして名前を付けます。作成した関数は、呼び出すことで実行されます。",
     example: `def greet(name):
@@ -232,7 +293,7 @@ greet("大分")`,
   },
 
   {
-    title: "9　探索",
+    title: "10　探索",
     description:
       "リストの中から目的の値を順番に探します。見つかった位置を変数に保存します。",
     example: `numbers=[12,25,38,41,56]
@@ -310,7 +371,7 @@ else:
   },
 
   {
-    title: "10　交換",
+    title: "11　交換",
     description:
       "2つの変数の値を交換します。一方の値が消えないように、一時的に別の変数へ保存します。",
     example: `a=10
@@ -364,7 +425,7 @@ print(b)`,
   },
 
   {
-    title: "11　乱数",
+    title: "12　乱数",
     description:
       "randomモジュールを使うと、実行するたびに異なる数を選べます。randint(a,b)はa以上b以下の整数を1つ返します。",
     example: `import random
@@ -394,7 +455,7 @@ print(number)`,
   },
 
   {
-    title: "12　自由記述",
+    title: "13　自由記述",
     description:
       "自由にPythonコードを入力して、動作を確認できます。",
     example: `# ここにPythonコードを書いてください

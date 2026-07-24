@@ -357,3 +357,39 @@ main {
     display: none;
   }
 }
+.code-meaning-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.code-meaning-header h2 {
+  margin: 0;
+}
+
+.display-switch {
+  display: flex;
+  flex-shrink: 0;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.display-switch-button {
+  padding: 6px 10px;
+  border: none;
+  background: white;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.display-switch-button + .display-switch-button {
+  border-left: 1px solid #2563eb;
+}
+
+.display-switch-button.active {
+  background: #2563eb;
+  color: white;
+}

@@ -4,10 +4,14 @@ function renderCodeMeaningTable(rows) {
   const body = document.getElementById("codeMeaningBody");
   body.innerHTML = "";
 
-  rows.forEach(([code, meaning]) => {
+  rows.forEach((rowData) => {
+    const code = rowData[0] ?? "";
+    const meaning = rowData[1] ?? "";
+    const dncl = rowData[2] ?? "";
+
     const row = document.createElement("tr");
 
-    if (code === "" && meaning === "") {
+    if (code === "" && meaning === "" && dncl === "") {
       row.className = "blank-row";
     }
 
@@ -16,15 +20,41 @@ function renderCodeMeaningTable(rows) {
     codeText.textContent = toDisplayCode(code);
     codeCell.appendChild(codeText);
 
-    const meaningCell = document.createElement("td");
-    meaningCell.textContent = meaning;
+    const explanationCell = document.createElement("td");
+
+    if (displayMode === "meaning") {
+      explanationCell.textContent = meaning;
+    } else {
+      explanationCell.textContent =
+        dncl || "DNCLはまだ登録されていません。";
+    }
 
     row.appendChild(codeCell);
-    row.appendChild(meaningCell);
+    row.appendChild(explanationCell);
     body.appendChild(row);
   });
 }
+function changeDisplayMode(mode) {
+  displayMode = mode;
 
+  document
+    .getElementById("meaningButton")
+    .classList.toggle("active", mode === "meaning");
+
+  document
+    .getElementById("dnclButton")
+    .classList.toggle("active", mode === "dncl");
+
+  document.getElementById("rightColumnTitle").textContent =
+    mode === "meaning" ? "コードの意味" : "DNCL";
+
+  document.getElementById("codeMeaningTitle").textContent =
+    mode === "meaning"
+      ? "コード例とコードの意味"
+      : "コード例とDNCL";
+
+  renderCodeMeaningTable(lessons[currentLesson].rows);
+}
 function createLessonButtons() {
   const lessonList = document.getElementById("lessonList");
   lessonList.innerHTML = "";
@@ -78,9 +108,25 @@ function clearCode() {
 }
 
 function setupButtons() {
-  document.getElementById("runButton").addEventListener("click", runPython);
-  document.getElementById("resetButton").addEventListener("click", resetCode);
-  document.getElementById("clearButton").addEventListener("click", clearCode);
+  document
+    .getElementById("runButton")
+    .addEventListener("click", runPython);
+
+  document
+    .getElementById("resetButton")
+    .addEventListener("click", resetCode);
+
+  document
+    .getElementById("clearButton")
+    .addEventListener("click", clearCode);
+
+  document
+    .getElementById("meaningButton")
+    .addEventListener("click", () => changeDisplayMode("meaning"));
+
+  document
+    .getElementById("dnclButton")
+    .addEventListener("click", () => changeDisplayMode("dncl"));
 }
 
 window.addEventListener("DOMContentLoaded", () => {

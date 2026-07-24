@@ -1,5 +1,5 @@
 let currentLesson = 0;
-
+let displayMode = "meaning";
 function renderCodeMeaningTable(rows) {
   const body = document.getElementById("codeMeaningBody");
   body.innerHTML = "";
